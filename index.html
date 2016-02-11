@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+	<script src="big-num.js"></script>
+	<script src="app.js"></script>
+</head>
+<body class="text-center" ng-app="clickMage" ng-controller="mainController">
+	<main class="container-fluid">
+		<header class="page-header">
+			<h2>Click Stuff!</h2>
+		</header>
+		<section class="row">
+			<div class="col-sm-4">
+				<p>Mana:</p>
+				<p class="lead">{{ displayMana() }}</p>
+				<button class="btn btn-big btn-block btn-primary" ng-click="click($event)">Make Mana!</button>
+			</div>
+			<div class="col-sm-8">
+				<ul class="nav nav-tabs nav-justified">
+					<li class="active"><a data-toggle="tab" href="#units">Units</a></li>
+					<li><a data-toggle="tab" href="#concoctions">Concoctions</a></li>
+				</ul>
+				
+				<div class="tab-content">
+					<div class="tab-pane active" id="units">
+						<ul class="list-group">
+							<li class="list-group-item" ng-repeat="(unit, props) in units" ng-if="prevUnitExists(unit)">
+								<div class="row">
+									<div class="col-xs-7">
+										<h4 class="text-left">{{ unit }}<span class="pull-right label label-default">M$ {{ units[unit].cost }}</span></h4>
+										<p>You've summoned: {{ units[unit].total }}</p>
+									</div>
+									<div class="col-xs-5 btn-group-vertical">
+										<button class="btn btn-info" ng-click="addUnit(unit, 1)">summon 1</button>
+										<button class="btn btn-info" ng-click="addUnit(unit, 10)">summon {{ calcFourth(units[unit].cost) }}</button>
+										<button class="btn btn-info" ng-click="addUnit(unit, 100)">summon {{ calcMax(units[unit].cost) }}</button>
+									</div>
+								</div>
+							</li> 
+						</ul>
+					</div>
+				</div>
+				<div class="tab-content">
+					<div class="tab-pane" id="concoctions">
+						
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+</body>
+</html>

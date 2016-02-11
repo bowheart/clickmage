@@ -1,0 +1,59 @@
+	UNITS
+snail
+leech
+toad
+bat
+groveler
+newt
+crow
+lizard
+crony
+henchman
+grunt
+brute
+mongrel
+savage
+apprentice
+witch
+ogre
+enchantress
+troll
+wizard
+sorceress
+unicorn
+giant
+brown dragon
+gold dragon
+sapphire dragon
+dragon queen
+demon
+black demon
+
+
+
+
+	CONCOCTIONS
+
+
+
+
+
+	ENHANCEMENTS
+
+
+
+
+
+	SPELLS
+
+
+
+
+
+	ABILITIES
+
+
+
+
+
+	LEVELS
