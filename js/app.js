@@ -3,9 +3,9 @@
 		var app = angular.module('clickMage', []);
 		
 		app.controller('mainController', function($scope, $interval) {
-			$scope.mana = BigNum();
+			$scope.mana = new Big(0);
 			$scope.displayMana = function() {
-				return $scope.mana.str;
+				return $scope.mana.toFixed(0);
 			};
 			var clickProduction = 1;
 			
@@ -19,15 +19,15 @@
 				return prevUnitIndex === -1 || prevUnit.total > 0;
 			};
 			$scope.addUnit = function(unit, num) {
-				var totalCost = Math.min($scope.mana, units[unit].cost * num),
+				var totalCost = Math.min(+$scope.mana.toFixed(0), units[unit].cost * num),
 					individualCost = units[unit].cost,
 					numBought = Math.floor(totalCost / individualCost);
 				units[unit].total += numBought;
-				$scope.mana.subtract(numBought * individualCost);
+				$scope.mana = $scope.mana.sub(numBought * individualCost);
 			};
 			
-			$scope.calcFourth = function(cost) { return parseInt(Math.max(10, $scope.mana / cost / 4)); };
-			$scope.calcMax = function(cost) { return BigNum(parseInt(Math.max(100, $scope.mana / cost))).str(0); };
+			$scope.calcFourth = function(cost) { return parseInt(Math.max(10, +$scope.mana.toFixed(0) / cost / 4)); };
+			$scope.calcMax = function(cost) { return parseInt(Math.max(100, +$scope.mana.toFixed(0) / cost)); };
 			$scope.click = function($event) {
 				$scope.mana += clickProduction;
 			};
@@ -35,7 +35,7 @@
 			var tick = function() {
 				for (var unit in units) {
 					var u = units[unit];
-					$scope.mana.add(u.total * u.production * u.multiplier + u.addition);
+					$scope.mana = $scope.mana.add(u.total * u.production * u.multiplier + u.addition);
 				}
 			};
 			//$interval(tick, 10);
