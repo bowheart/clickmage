@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<title>ClickMage</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link rel="stylesheet" href="app.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
@@ -9,23 +13,43 @@
 	<script src="app.js"></script>
 </head>
 <body class="text-center" ng-app="clickMage" ng-controller="mainController">
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#/stats">ClickMage</a>
+				<button class="navbar-toggle" data-toggle="collapse" data-target="#main-menu"><span class="glyphicon glyphicon-menu-hamburger"></span></button>
+			</div>
+			<div id="main-menu" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#/stats">My Stats</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
 	<main class="container-fluid">
 		<header class="page-header">
 			<h2>Click Stuff!</h2>
 		</header>
 		<section class="row">
 			<div class="col-sm-4">
-				<p>Mana:</p>
-				<p class="lead">{{ displayMana() }}</p>
-				<button class="btn btn-big btn-block btn-primary" ng-click="click($event)">Make Mana!</button>
+				<div class="mana-wrapper">
+					<p>Mana:</p>
+					<p class="lead">{{ displayMana() }}</p>
+				</div>
+				<div class="panel panel-info">
+					<div class="panel-heading">Work</div>
+					<div class="panel-body clickable" ng-click="click($event)">
+						<span>Make Mana!</span>
+					</div>
+				</div>
 			</div>
 			<div class="col-sm-8">
-				<ul class="nav nav-tabs nav-justified">
+				<ul class="nav nav-tabs">
 					<li class="active"><a data-toggle="tab" href="#units">Units</a></li>
 					<li><a data-toggle="tab" href="#concoctions">Concoctions</a></li>
 				</ul>
 				
-				<div class="tab-content">
+				<div class="tab-content tabs">
 					<div class="tab-pane active" id="units">
 						<ul class="list-group">
 							<li class="list-group-item" ng-repeat="(unit, props) in units" ng-if="prevUnitExists(unit)">
@@ -43,8 +67,6 @@
 							</li> 
 						</ul>
 					</div>
-				</div>
-				<div class="tab-content">
 					<div class="tab-pane" id="concoctions">
 						
 					</div>

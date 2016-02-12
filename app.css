@@ -1,0 +1,10 @@
+.clickable {
+	cursor: pointer;
+	user-select: none; -webkit-user-select: none; -moz-user-select: none; -o-user-select: none; -ms-user-select: none;
+}
+
+
+
+.tabs > div {
+	margin-top: 20px;
+}

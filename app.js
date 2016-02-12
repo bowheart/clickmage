@@ -4,7 +4,9 @@
 		
 		app.controller('mainController', function($scope, $interval) {
 			$scope.mana = BigNum();
-			$scope.displayMana = function() { return $scope.mana.str; };
+			$scope.displayMana = function() {
+				return $scope.mana.str;
+			};
 			var clickProduction = 1;
 			
 			$scope.game = game;
@@ -21,21 +23,22 @@
 					individualCost = units[unit].cost,
 					numBought = Math.floor(totalCost / individualCost);
 				units[unit].total += numBought;
-				$scope.mana -= numBought * individualCost;
+				$scope.mana.subtract(numBought * individualCost);
 			};
 			
 			$scope.calcFourth = function(cost) { return parseInt(Math.max(10, $scope.mana / cost / 4)); };
-			$scope.calcMax = function(cost) { return parseInt(Math.max(100, $scope.mana / cost)); };
+			$scope.calcMax = function(cost) { return BigNum(parseInt(Math.max(100, $scope.mana / cost))).str(0); };
 			$scope.click = function($event) {
 				$scope.mana += clickProduction;
 			};
 			
 			var tick = function() {
 				for (var unit in units) {
-					$scope.mana += units[unit].produce();
+					var u = units[unit];
+					$scope.mana.add(u.total * u.production * u.multiplier + u.addition);
 				}
 			};
-			$interval(tick, 10);
+			//$interval(tick, 10);
 		});
 	};
 	
@@ -44,49 +47,43 @@
 			cost: 20,
 			production: 0.001,
 			total: 0,
-			produce: function() {
-				return this.total * this.production;
-			}
+			multiplier: 1,
+			addition: 0
 		},
 		leech: {
 			cost: 300,
 			production: 0.004,
 			total: 0,
-			produce: function() {
-				return this.total * this.production;
-			}
+			multiplier: 1,
+			addition: 0
 		},
 		toad: {
 			cost: 1150,
 			production: 0.01,
 			total: 0,
-			produce: function() {
-				return this.total * this.production;
-			}
+			multiplier: 1,
+			addition: 0
 		},
 		bat: {
 			cost: 2900,
 			production: 0.08,
 			total: 0,
-			produce: function() {
-				return this.total * this.production;
-			}
+			multiplier: 1,
+			addition: 0
 		},
 		groveler: {
 			cost: 4800,
 			production: 0.17,
 			total: 0,
-			produce: function() {
-				return this.total * this.production;
-			}
+			multiplier: 1,
+			addition: 0
 		},
 		crow: {
 			cost: 9000,
 			production: 0.3,
 			total: 0,
-			produce: function() {
-				return this.total * this.production;
-			}
+			multiplier: 1,
+			addition: 0
 		}
 	};
 	var concoctions = {
