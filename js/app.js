@@ -1,35 +1,54 @@
 (function() {
 	var initApp = function() {
-		var app = angular.module('clickMage', []);
+		var app = angular.module('clickMage', ['units']);
 		
 		app.controller('mainController', function($scope, $interval) {
 			$scope.mana = new Big(0);
+			$scope.window = window;
 			$scope.displayMana = function() {
-				return $scope.mana.toFixed(0);
+				var withCommas = $scope.mana.toFixed(0).split('').reverse().join('').replace(/(\d{3})/g, '$1,').split('').reverse();
+				if (withCommas[0] === ',') withCommas.shift();
+				return withCommas.join('');
 			};
-			var clickProduction = 1;
+			$scope.int = function(num) {
+				return parseInt(num);
+			};
+			
 			
 			$scope.game = game;
 			$scope.units = units;
 			$scope.concoctions = concoctions;
+			$scope.skills = skills;
 			
 			$scope.prevUnitExists = function(unit) {
 				var prevUnitIndex = Object.keys(units).indexOf(unit) - 1,
 					prevUnit = units[Object.keys(units)[prevUnitIndex]];
 				return prevUnitIndex === -1 || prevUnit.total > 0;
 			};
-			$scope.addUnit = function(unit, num) {
+			$scope.summon = function(unit, num) {
 				var totalCost = Math.min(+$scope.mana.toFixed(0), units[unit].cost * num),
 					individualCost = units[unit].cost,
 					numBought = Math.floor(totalCost / individualCost);
 				units[unit].total += numBought;
 				$scope.mana = $scope.mana.sub(numBought * individualCost);
+				
+				// update summoning skill
+				$scope.addSkill('summoning', numBought * individualCost / 40)
+			};
+			$scope.addSkill = function(skillName, xp) {
+				var skill = skills[skillName];
+				skill.xp += xp;
+				if (skill.xp >= skill.nextLevel) {
+					skill.nextLevel += 8.5 * skill.level;
+					console.info("You've advanced a level!  You are now level " + ++skill.level + " in " + skillName);
+				}
 			};
 			
 			$scope.calcFourth = function(cost) { return parseInt(Math.max(10, +$scope.mana.toFixed(0) / cost / 4)); };
 			$scope.calcMax = function(cost) { return parseInt(Math.max(100, +$scope.mana.toFixed(0) / cost)); };
-			$scope.click = function($event) {
-				$scope.mana += clickProduction;
+			$scope.conjure = function($event) {
+				$scope.mana = $scope.mana.add(skills.conjuring.level);
+				$scope.addSkill('conjuring', .35);
 			};
 			
 			var tick = function() {
@@ -38,7 +57,7 @@
 					$scope.mana = $scope.mana.add(u.total * u.production * u.multiplier + u.addition);
 				}
 			};
-			//$interval(tick, 10);
+			$interval(tick, 20);
 		});
 	};
 	
@@ -94,10 +113,23 @@
 			}
 		}
 	};
+	var skills = {
+		conjuring: {
+			xp: 0,
+			level: 1,
+			nextLevel: 7
+		},
+		summoning: {
+			xp: 0,
+			level: 1,
+			nextLevel: 7
+		}
+	}
 	
 	var game = {
 		units: units,
-		concoctions: concoctions
+		concoctions: concoctions,
+		skills: skills
 	};
 	
 	initApp();

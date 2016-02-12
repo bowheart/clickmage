@@ -9,6 +9,7 @@ crow
 lizard
 crony
 henchman
+vulture
 grunt
 brute
 mongrel
@@ -23,9 +24,11 @@ sorceress
 unicorn
 giant
 brown dragon
+soul
 gold dragon
 sapphire dragon
 dragon queen
+aggressive spirit
 demon
 black demon
 
@@ -45,15 +48,39 @@ black demon
 
 
 	SPELLS
+fireball
+lightning
+mobilize something...
+invoke something...
+
+
+
+
+	LEARNING
+conjure leech
+conjure bat
+conjure newt
+cast fireball
+
+
+
+
+	SKILLS
+conjuring    (clickage)
+divination
+enchanting
+alchemy
+summoning
+stealth
+reputation  (scatter units)
+
+
+
+
+	ACHIEVEMENTS
 
 
 
 
 
-	ABILITIES
-
-
-
-
-
-	LEVELS
+the lower units will give better summoning xp overall.

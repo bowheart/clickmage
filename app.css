@@ -8,3 +8,15 @@
 .tabs > div {
 	margin-top: 20px;
 }
+.tabs .btn:focus {
+	outline: none;
+}
+
+.conjure .panel-body {
+	transition: background 0.05s, color 0.05s;
+}
+.conjure .panel-body:active {
+	background: #d9edf7;
+	color: #31708f;
+	transition: background 0s, color 0s;
+}
