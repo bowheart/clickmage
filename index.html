@@ -5,29 +5,42 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-	<link rel="stylesheet" href="app.css">
+	<link rel="stylesheet" href="css/app.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
-	<script src="js/big.min.js"></script>
+	<script src="js/base.js"></script>
+	<script src="js/lib/big.min.js"></script>
 	<script src="js/game.js"></script>
+	<script src="js/skills.js"></script>
+	<script src="js/units.js"></script>
+	<script src="js/concoctions.js"></script>
 	<script src="js/app.js"></script>
 </head>
 <body class="text-center" ng-app="clickMage" ng-controller="mainController as controller">
-	<nav class="navbar navbar-default">
+	<div id="alerts"></div>
+
+	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="#/stats">ClickMage</a>
+				<a class="navbar-brand" href="#/game">ClickMage</a>
 				<button class="navbar-toggle" data-toggle="collapse" data-target="#main-menu"><span class="glyphicon glyphicon-menu-hamburger"></span></button>
 			</div>
 			<div id="main-menu" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav navbar-right">
+					<li class="active"><a href="#/game">Game</a></li>
 					<li><a href="#/stats">My Stats</a></li>
+					<li><a href="#/settings">Settings</a></li>
+					<li class="divider-vertical"></li>
+					<li><a href="#" ng-click="resetGame()"><span class="text-danger">Reset</span></a></li>
 				</ul>
 			</div>
 		</div>
 	</nav>
-	<main class="container-fluid">
+	
+	
+	
+	<main class="container">
 		<header class="page-header">
 			<h2>Click Stuff!</h2>
 		</header>
@@ -37,72 +50,90 @@
 					<p>Mana:</p>
 					<p class="lead">{{ displayMana() }}</p>
 				</div>
-				<div class="panel panel-info conjure">
+				
+				
+				<div class="panel panel-info" id="conjurings" ng-controller="conjuringsController">
 					<div class="panel-heading">Conjure Resources</div>
-					<div class="panel-body clickable" ng-click="conjure($event)">
-						<span>Conjure Mana</span>
+					<div class="panel-body clickable" ng-click="conjure()">
+						<span>Conjure Mana <span class="badge">+{{ getConjureAmt('mana') }}</span></span>
 					</div>
 				</div>
+				
 			</div>
 			<div class="col-sm-8">
-				<ul class="nav nav-tabs">
+				<ul class="nav nav-tabs game-tabs">
 					<li class="active"><a data-toggle="tab" href="#units">Units</a></li>
 					<li><a data-toggle="tab" href="#concoctions">Concoctions</a></li>
 					<li><a data-toggle="tab" href="#skills">Skills</a></li>
 				</ul>
 				
-				<div class="tab-content tabs">
-					<div class="tab-pane active" id="units">
-						<ul class="list-group">
-							<li class="list-group-item" ng-repeat="(unit, props) in units" ng-if="prevUnitExists(unit)">
-								<div class="row">
-									<div class="col-xs-7">
-										<h4 class="text-left">{{ unit }}<span class="pull-right"><span class="label label-default">Mana</span> {{ units[unit].cost }}</span></h4>
-										<p>You've summoned: {{ units[unit].total }}</p>
-									</div>
-									<div class="col-xs-5 btn-group-vertical">
-										<button class="btn" ng-click="summon(unit, 1)">summon 1</button>
-										<button class="btn" ng-click="summon(unit, 10)">summon {{ calcFourth(units[unit].cost) }}</button>
-										<button class="btn" ng-click="summon(unit, 100)">summon {{ calcMax(units[unit].cost) }}</button>
-									</div>
+				
+				
+				<div class="tab-content game-tab-content">
+				
+					<div class="tab-pane active" id="units" ng-controller="unitsController">
+						<div class="panel-group">
+							<div class="panel panel-primary" ng-repeat="(group, groupUnits) in units" ng-if="showGroup(groupUnits)">
+								<div class="panel-heading clickable">
+									<h4 class="panel-title"><a data-toggle="collapse" href="#{{ group }}">{{ group }}</a></h4>
 								</div>
-							</li> 
+								<div id="{{ group }}" class="panel panel-collapse collapse" ng-class="{true: 'in', false: ''}[group === 'creatures']">
+									<ul class="list-group">
+										<li class="list-group-item" ng-repeat="(unit, props) in groupUnits" ng-if="canSummon(props)">
+											<h4>{{ unit }}</h4>
+											<p class="text-left text-muted unit-info">
+												<span class="text-primary">{{ props.owned }}</span> <span class="small">summoned</span><span class="pull-right small">Cost: {{ props.cost }}</span>
+											</p>
+											<div class="btn-group btn-group-justified">
+												<a class="btn btn-default disabled" ng-if="!canAfford(props.cost, 1)">Insufficient mana</a>
+												<a class="btn btn-default" ng-if="canAfford(props.cost, 1)" ng-click="summon(props, 1)">summon 1</a>
+												<a class="btn btn-default" ng-if="canAfford(props.cost, 8)" ng-click="summon(props, calcFourth(props.cost))">summon {{ calcFourth(props.cost) }}</a>
+												<a class="btn btn-default" ng-if="canAfford(props.cost, 2)" ng-click="summon(props, calcMax(props.cost))">summon {{ calcMax(props.cost) }}</a>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					
+					<div class="tab-pane" id="concoctions" ng-controller="concoctionsController">
+						<ul class="concoctions">
+							<li ng-repeat="(concoction, props) in concoctions" ng-class="{true: 'info', false: ''}[props.active]" ng-if="props.cond()">
+								<h4>{{ concoction }}</h4>
+								<p class="text-muted text-left small">{{ props.desc }}</p>
+								<p class="text-info">Recipe</p>
+								<ul class="ingredients">
+									<li ng-repeat="(ingredient, amount) in props.ingredients">
+										<p class="text-left">
+											<span>{{ ingredient }}</span>
+											<span class="pull-right label" ng-class="{true: 'label-success', false: 'label-danger'}[hasIngredient(ingredient, amount)]">{{ amount }}</span>
+										</p>
+									</li>
+								</ul>
+								<p>
+									<button class="btn btn-primary" ng-click="concoct(props)" ng-if="canConcoct(props.ingredients)">Concoct</button>
+									<button class="btn disabled" ng-if="!canConcoct(props.ingredients)">can't concoct</button>
+									<span class="text-muted time-left pull-right small" ng-if="props.active">time left:<br>{{ timeLeft(props) }}s</span>
+								</p>
+							</li>
 						</ul>
 					</div>
 					
 					
-					<div class="tab-pane" id="concoctions">
-						<table class="table table-striped table-hover text-left"><thead><tr>
-							<th colspan="2"></th>
-							<th>concoction</th>
-							<th>total</th>
-							<th>description</th>
-							<th>cost</th>
-						</tr></thead><tbody>
-							<tr ng-repeat="(concoction, props) in concoctions">
-								<td><button class="btn btn-sm btn-primary" ng-click="props.buy(controller)">Buy 1</button></td>
-								<td><button class="btn btn-sm btn-default" ng-click="props.use()">Use 1</button></td>
-								<td>{{ concoction }}</td>
-								<td>{{ total }}</td>
-								<td>{{ props.desc }}</td>
-								<td>{{ props.cost }}</td>
-							</tr>
-						</tbody></table>
-					</div>
-					
-					
-					<div class="tab-pane" id="skills">
+					<div class="tab-pane" id="skills" ng-controller="skillsController">
 						<table class="table table-striped table-hover text-left"><thead><tr>
 							<th>skill</th>
 							<th>level</th>
-							<th>next level at</th>
 							<th>xp</th>
+							<th>next level at</th>
 						</tr></thead><tbody>
 							<tr ng-repeat="(skill, props) in skills">
 								<td>{{ skill }}</td>
 								<td>{{ props.level }}</td>
-								<td>{{ int(props.nextLevel) }}</td>
 								<td>{{ int(props.xp) }}</td>
+								<td>{{ int(props.nextLevel) }}</td>
 							</tr>
 						</tbody></table>
 						</ul>
