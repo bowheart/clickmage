@@ -38,10 +38,9 @@ window.app.game.factory('skillsFactory', function() {
 
 
 window.app.game.controller('skillsController',
-			['manaFactory', 'skillsFactory', '$scope',
-			function(manaFactory, skillsFactory, $scope) {
+			['skillsFactory', '$scope',
+			function(skillsFactory, $scope) {
 	
-	$scope.mana = manaFactory.mana;
 	$scope.skills = skillsFactory.skills;
 	
 	$scope.update = function(skillName, xp) {

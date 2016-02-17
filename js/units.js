@@ -1,5 +1,5 @@
-window.app.game.factory('unitsFactory', ['manaFactory', function(manaFactory) {
-	var mana = manaFactory.mana;
+window.app.game.factory('unitsFactory', ['conjuringsFactory', function(conjuringsFactory) {
+	var conjurings = conjuringsFactory.conjurings;
 	var units = {
 		creatures: {
 			snail: { cost: 20, production: 0.002, xp: 0.3, levelNeeded: 1 },
@@ -61,30 +61,42 @@ window.app.game.factory('unitsFactory', ['manaFactory', function(manaFactory) {
 		},
 		produce: function() {
 			var self = this;
-			self._production = 0;
 			Object.keys(self.units).forEach(function(group) {
+				self._production[group] = 0;
+				
 				Object.keys(self.units[group]).forEach(function(unit) {
 					var u = self.units[group][unit];
-					self._production += u.owned * u.production * u.multiplier + u.addition;
+					self._production[group] += u.owned * u.production * u.multiplier + u.addition;
 				});
 			});
-			mana.run('add', self._production);
+			
+			// now that the productions are saved, actually produce:
+			Object.keys(self._production).forEach(function(group) {
+				conjurings[self.map[group]].run('add', self._production[group]);
+			});
 		},
 		units: localStorage.units ? JSON.parse(localStorage.units) : units,
-		_production: 0
+		map: {
+			creatures: 'mana',
+			cronies: 'gold',
+			magicians: 'energy',
+			beings: 'darkness'
+		},
+		_production: { creatures: 0, cronies: 0, magicians: 0, beings: 0 }
 	};
 }]);
 
 
 window.app.game.controller('unitsController',
-			['manaFactory', 'unitsFactory', 'skillsFactory', '$scope', '$controller',
-			function(manaFactory, unitsFactory, skillsFactory, $scope, $controller) {
+			['conjuringsFactory', 'unitsFactory', 'skillsFactory', '$scope', '$controller',
+			function(conjuringsFactory, unitsFactory, skillsFactory, $scope, $controller) {
 	
 	var skillsController = $scope.$new();
 	$controller('skillsController', { $scope: skillsController });
-	var mana = manaFactory.mana,
+	var conjurings = conjuringsFactory.conjurings,
 		units = unitsFactory.units,
 		skills = skillsFactory.skills;
+	
 	
 	$scope.units = units;
 	
@@ -102,15 +114,32 @@ window.app.game.controller('unitsController',
 		return show;
 	};
 	
-	$scope.summon = function(unit, num) {
-		var totalCost = Math.min(+mana.print(), unit.cost * num),
+	$scope.summon = function(unit, group, num) {
+		var conjuring = conjurings[unitsFactory.map[group]],
+			totalCost = Math.min(+conjuring.print(), unit.cost * num),
 			numBought = Math.floor(totalCost / unit.cost),
-			manaSpent = numBought * unit.cost;
+			conjuringSpent = numBought * unit.cost;
 		
 		unit.owned += numBought;
-		mana.run('sub', manaSpent);
+		conjuring.run('sub', conjuringSpent);
 		
 		// update summoning skill
 		skillsController.update('summoning', unit.xp * numBought);
 	};
+	
+	
+	
+	
+	// = = = = = = = =   Helper Functions   = = = = = = = = //
+	$scope.calcFourth = function(cost, group) {
+		return parseInt(+conjurings[unitsFactory.map[group]].print() / cost / 4);
+	};
+	$scope.calcMax = function(cost, group) {
+		return parseInt(+conjurings[unitsFactory.map[group]].print() / cost);
+	};
+	
+	$scope.canAfford = function(cost, group, num) {
+		return +conjurings[unitsFactory.map[group]].print() >= cost * num;
+	};
+	
 }]);

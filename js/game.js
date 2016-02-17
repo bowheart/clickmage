@@ -4,6 +4,12 @@ window.app = {
 		
 	}
 };
+
+window.app.game.filter('capitalize', function() {
+	return function(token) {
+		return token[0].toUpperCase() + token.slice(1);
+	}
+});
 	
 window.app.game.factory('manaFactory', function() {
 	var mana = {

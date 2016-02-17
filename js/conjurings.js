@@ -1,9 +1,9 @@
 window.app.game.factory('conjuringsFactory', function() {
 	var conjurings = {
-		mana: { _num: new Big(localStorage.mana || 0), production: 1, xp: .35, levelNeeded: 0 },
-		gold: { _num: new Big(localStorage.gold || 0), production: 1, xp: 2, levelNeeded: 12 },
-		energy: { _num: new Big(localStorage.energy || 0), production: 1, xp: 14, levelNeeded: 48 },
-		darkness: { _num: new Big(localStorage.darkness || 0), production: 1, xp: 112, levelNeeded: 78 }
+		mana: { _num: new Big(localStorage.mana || 0), production: 1, xp: .35, levelNeeded: 1, ownedPhrase: 'mana pooled' },
+		gold: { _num: new Big(localStorage.gold || 0), production: 1, xp: 2, levelNeeded: 12, ownedPhrase: 'gold hoarded' },
+		energy: { _num: new Big(localStorage.energy || 0), production: 1, xp: 14, levelNeeded: 48, ownedPhrase: 'energy generated' },
+		darkness: { _num: new Big(localStorage.darkness || 0), production: 1, xp: 112, levelNeeded: 78, ownedPhrase: 'darkness unleashed' }
 	};
 	
 	
@@ -45,22 +45,35 @@ window.app.game.controller('conjuringsController',
 	
 	var skillsController = $scope.$new();
 	$controller('skillsController', { $scope: skillsController });
+	var skills = skillsFactory.skills,
+		conj = skills.conjuring;
+	
+	
 	$scope.conjurings = conjuringsFactory.conjurings;
-	$scope.skills = skillsFactory.skills;
-	var conj = $scope.skills.conjuring;
+	
+	$scope.canConjure = function(conjuring) {
+		return conj.level >= conjuring.levelNeeded;
+	};
 	
 	$scope.conjure = function(conjuring) {
-		conjuring.run('add', getAmount() - );
+		conjuring.run('add', getProduction(conjuring));
 		skillsController.update('conjuring', .35 + (conj.level - 1) / 20);
 	};
 	
 	$scope.getConjureAmt = function(conjuring) {
-		var production = conjuring.production;
-		return production === Math.floor(production) ? production : 
-				production >= 1000 ? Math.floor(production) : production.toFixed(1);
+		var production = getProduction(conjuring);
+		return production === Math.floor(production) || production >= 1000 ? Math.floor(production) : production.toFixed(1);
 	};
 	
-	var getAmount = function(production) {
-		return (conj.level + conj.level * (conj.level / 8)) * conj.prodMultiplier + conj.prodAddition - .125;
+	$scope.displayConjuring = function(conjuring) {
+		var withCommas = conjuring.print().split('').reverse().join('').replace(/(\d{3})/g, '$1,').split('').reverse();
+		if (withCommas[0] === ',') withCommas.shift();
+		return withCommas.join('');
+	};
+	
+	var getProduction = function(conjuring) {
+		if (conj.level < conjuring.levelNeeded) return 0;
+		var base = conj.level - conjuring.levelNeeded + 1;
+		return 0.8 + base * base / 5;
 	};
 }]);

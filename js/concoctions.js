@@ -1,4 +1,4 @@
-window.app.game.factory('concoctionsFactory', ['manaFactory', 'skillsFactory', function(manaFactory, skillsFactory) {
+window.app.game.factory('concoctionsFactory', ['skillsFactory', function(skillsFactory) {
 	var skills = skillsFactory.skills;
 	var concoctions = {
 		'potion of conjuring': {
@@ -58,16 +58,17 @@ window.app.game.factory('concoctionsFactory', ['manaFactory', 'skillsFactory', f
 
 
 window.app.game.controller('concoctionsController',
-			['manaFactory', 'concoctionsFactory', 'unitsFactory', '$scope', '$controller', '$timeout',
-			function(manaFactory, concoctionsFactory, unitsFactory, $scope, $controller, $timeout) {
+			['concoctionsFactory', 'unitsFactory', '$scope', '$controller', '$timeout',
+			function(concoctionsFactory, unitsFactory, $scope, $controller, $timeout) {
 	
 	var skillsController = $scope.$new();
 	$controller('skillsController', { $scope: skillsController });
-	var mana = manaFactory.mana,
-		concoctions = concoctionsFactory.concoctions,
+	var concoctions = concoctionsFactory.concoctions,
 		units = unitsFactory.units,
-		skills = skillsController.skills,
-		timeout;
+		skills = skillsController.skills;
+	
+	
+	$scope.concoctions = concoctions;
 	
 	$scope.hasIngredient = function(ingredientName, amount) {
 		var creature = units.creatures[ingredientName];
@@ -92,8 +93,8 @@ window.app.game.controller('concoctionsController',
 		concoction.active = true;
 		concoction.endTime += concoction.duration * 1000 + (concoction.endTime ? 0 : Date.now());
 		
-		$timeout.cancel(timeout);
-		timeout = $timeout(function() {
+		$timeout.cancel(concoction.timeout);
+		concoction.timeout = $timeout(function() {
 			concoction.endTime = 0;
 			concoction.removeEffect();
 			concoction.active = false;
