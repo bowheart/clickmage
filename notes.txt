@@ -12,6 +12,7 @@ newt
 crow
 lizard
 	crony
+raven
 	henchman
 vulture
 	grunt
@@ -28,15 +29,19 @@ creature
 		wizard
 		sorceress
 unicorn
+			genii
 	giant
 		brown dragon
 			soul
 gryphon
 		gold dragon
 		sapphire dragon
+			restless spirit
+			fiend
 		dragon queen
-			aggressive spirit
 			demon
+			dark warrior
+		fury dragon
 			black demon
 
 
@@ -87,13 +92,14 @@ enchanting
 alchemy
 summoning
 stealth
-reputation  (scatter units)
+reputation  (banish units)
 
 
 
 
 	ACHIEVEMENTS
-
+'that which was sacred' (banish unicorn)
+'creature of ...' (summon creature)
 
 
 

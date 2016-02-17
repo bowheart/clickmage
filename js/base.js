@@ -5,9 +5,15 @@ $(function() {
 	});
 	
 	
+	window.app.keyRows = [
+		[49, 50, 51, 52, 53, 54, 55, 56, 57, 48], // 1 - 0
+		[113, 119, 101, 114, 116, 121, 117, 105, 111, 112], // q - p
+		[97, 115, 100, 102, 103, 104, 106, 107, 108, 59], // a - ;
+		[122, 120, 99, 118, 98, 110, 109, 44, 46, 47] // z - /
+	];
 	$(document).keypress(function(event) {
-		var key = event.which - 48;
-		$('.game-tabs li:eq(' + (key - 1) + ') a').click();
+		var key = event.which;
+		$('.hotkey-' + key + ':visible').click();
 	});
 });
 

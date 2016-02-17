@@ -1,5 +1,18 @@
 @import 'config';
 
+
+#conjurings {
+	.panel-body {
+		transition: background 0.05s, color 0.05s;
+		
+		&:active {
+			background: $infoBg;
+			color: $infoTxt;
+			transition: backbround 0s, color 0s;
+		}
+	}
+}
+
 .game-tab-content {
 	> div {
 		margin-top: 20px;
@@ -22,15 +35,19 @@
 	}
 }
 
-#conjurings {
-	.panel-body {
-		transition: background 0.05s, color 0.05s;
-		
-		&:active {
-			background: $infoBg;
-			color: $infoTxt;
-			transition: backbround 0s, color 0s;
-		}
+
+#units {
+	> .tab-content {
+		margin-top: 20px;
+	}
+	
+	.unit-group-units > li.active > a {
+		background: #d9edf7;
+		color: #31708f;
+	}
+	
+	.unit-info {
+		font-size: 120%;
 	}
 }
 

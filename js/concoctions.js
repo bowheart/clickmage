@@ -67,7 +67,7 @@ window.app.game.controller('concoctionsController',
 		concoctions = concoctionsFactory.concoctions,
 		units = unitsFactory.units,
 		skills = skillsController.skills,
-		timeout = 0;
+		timeout;
 	
 	$scope.hasIngredient = function(ingredientName, amount) {
 		var creature = units.creatures[ingredientName];
@@ -92,11 +92,12 @@ window.app.game.controller('concoctionsController',
 		concoction.active = true;
 		concoction.endTime += concoction.duration * 1000 + (concoction.endTime ? 0 : Date.now());
 		
-		window.clearTimeout(timeout);
+		$timeout.cancel(timeout);
 		timeout = $timeout(function() {
+			concoction.endTime = 0;
 			concoction.removeEffect();
 			concoction.active = false;
-		}, concoction.endTime - Date.now()).$$timeoutId;
+		}, concoction.endTime - Date.now());
 		
 		// update alchemy skill
 		skillsController.update('alchemy', concoction.xp);

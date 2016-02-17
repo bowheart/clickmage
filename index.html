@@ -12,6 +12,7 @@
 	<script src="js/base.js"></script>
 	<script src="js/lib/big.min.js"></script>
 	<script src="js/game.js"></script>
+	<script src="js/conjurings.js"></script>
 	<script src="js/skills.js"></script>
 	<script src="js/units.js"></script>
 	<script src="js/concoctions.js"></script>
@@ -62,9 +63,9 @@
 			</div>
 			<div class="col-sm-8">
 				<ul class="nav nav-tabs game-tabs">
-					<li class="active"><a data-toggle="tab" href="#units">Units</a></li>
-					<li><a data-toggle="tab" href="#concoctions">Concoctions</a></li>
-					<li><a data-toggle="tab" href="#skills">Skills</a></li>
+					<li ng-repeat="(component, props) in components" ng-class="{true: 'active', false: ''}[component === 'units']">
+						<a data-toggle="tab" href="#{{ component }}" class="hotkey-{{ getHotkey(0, component, components) }}">{{ component }}</a>
+					</li>
 				</ul>
 				
 				
@@ -72,26 +73,33 @@
 				<div class="tab-content game-tab-content">
 				
 					<div class="tab-pane active" id="units" ng-controller="unitsController">
-						<div class="panel-group">
-							<div class="panel panel-primary" ng-repeat="(group, groupUnits) in units" ng-if="showGroup(groupUnits)">
-								<div class="panel-heading clickable">
-									<h4 class="panel-title"><a data-toggle="collapse" href="#{{ group }}">{{ group }}</a></h4>
-								</div>
-								<div id="{{ group }}" class="panel panel-collapse collapse" ng-class="{true: 'in', false: ''}[group === 'creatures']">
-									<ul class="list-group">
-										<li class="list-group-item" ng-repeat="(unit, props) in groupUnits" ng-if="canSummon(props)">
-											<h4>{{ unit }}</h4>
-											<p class="text-left text-muted unit-info">
-												<span class="text-primary">{{ props.owned }}</span> <span class="small">summoned</span><span class="pull-right small">Cost: {{ props.cost }}</span>
-											</p>
-											<div class="btn-group btn-group-justified">
-												<a class="btn btn-default disabled" ng-if="!canAfford(props.cost, 1)">Insufficient mana</a>
-												<a class="btn btn-default" ng-if="canAfford(props.cost, 1)" ng-click="summon(props, 1)">summon 1</a>
-												<a class="btn btn-default" ng-if="canAfford(props.cost, 8)" ng-click="summon(props, calcFourth(props.cost))">summon {{ calcFourth(props.cost) }}</a>
-												<a class="btn btn-default" ng-if="canAfford(props.cost, 2)" ng-click="summon(props, calcMax(props.cost))">summon {{ calcMax(props.cost) }}</a>
-											</div>
-										</li>
-									</ul>
+						<ul class="nav nav-pills nav-justified unit-groups-pills">
+							<li ng-repeat="(group, groupUnits) in units" ng-if="showGroup(groupUnits)" ng-class="{true: 'active', false: ''}[group === 'creatures']">
+								<a data-toggle="pill" href="#unit-group-{{ group }}" class="hotkey-{{ getHotkey(1, group, units) }}">{{ group }}</a>
+							</li>
+						</ul>
+						
+						<div class="tab-content">
+							<div class="tab-pane" ng-repeat="(group, groupUnits) in units" id="unit-group-{{ group }}" ng-class="{true: 'active', false: ''}[group === 'creatures']">
+								<ul class="nav nav-pills unit-group-units">
+									<li ng-repeat="(unit, props) in groupUnits" ng-if="canSummon(props)" ng-class="{true: 'active', false: ''}[isFirstUnit(unit, groupUnits)]">
+										<a data-toggle="pill" href="#unit-{{ group }}-{{ unit }}" class="hotkey-{{ getHotkey(2, unit, groupUnits) }}">{{ unit }}</a>
+									</li>
+								</ul>
+								
+								<div class="tab-content">
+									<div class="tab-pane" ng-repeat="(unit, props) in groupUnits" id="unit-{{ group }}-{{ unit }}" ng-if="canSummon(props)" ng-class="{true: 'active', false: ''}[isFirstUnit(unit, groupUnits)]">
+										<h4>{{ unit }}</h4>
+										<p class="text-left text-muted unit-info">
+											<span class="text-primary">{{ props.owned }}</span> <span class="small">summoned</span><span class="pull-right small">Cost: {{ props.cost }}</span>
+										</p>
+										<div class="btn-group btn-group-justified">
+											<a class="btn btn-default disabled" ng-if="!canAfford(props.cost, 1)">Insufficient mana</a>
+											<a class="btn btn-default hotkey-{{ getHotkey(3, 0) }}" ng-if="canAfford(props.cost, 1)" ng-click="summon(props, 1)">summon 1</a>
+											<a class="btn btn-default hotkey-{{ getHotkey(3, 1) }}" ng-if="canAfford(props.cost, 8)" ng-click="summon(props, calcFourth(props.cost))">summon {{ calcFourth(props.cost) }}</a>
+											<a class="btn btn-default hotkey-{{ getHotkey(3, 2) }}" ng-if="canAfford(props.cost, 2)" ng-click="summon(props, calcMax(props.cost))">summon {{ calcMax(props.cost) }}</a>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>

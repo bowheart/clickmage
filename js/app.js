@@ -15,6 +15,12 @@
 		$scope.concoctions = concoctionsFactory.concoctions;
 		$scope.skills = skillsFactory.skills;
 		
+		$scope.components = {
+			units: $scope.units,
+			concoctions: $scope.concoctions,
+			skills: $scope.skills
+		};
+		
 		
 		
 		// = = = = = = = =   Display Functions   = = = = = = = = //
@@ -48,6 +54,11 @@
 		$scope.canAfford = function(cost, num) {
 			return +$scope.mana.print() >= cost * num;
 		}
+		
+		$scope.getHotkey = function(rowGroup, key, obj) {
+			if (!window.app.keyRows) return;
+			return window.app.keyRows[rowGroup][typeof key === 'number' ? key : Object.keys(obj).indexOf(key)];
+		};
 		
 		$scope.calcFourth = function(cost) { return parseInt(+$scope.mana.print() / cost / 4); };
 		$scope.calcMax = function(cost) { return parseInt(+$scope.mana.print() / cost); };

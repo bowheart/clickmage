@@ -33,28 +33,3 @@ window.app.game.factory('manaFactory', function() {
 		mana: mana
 	}
 });
-
-window.app.game.controller('conjuringsController',
-			['manaFactory', 'skillsFactory', '$scope', '$controller',
-			function(manaFactory, skillsFactory, $scope, $controller) {
-	
-	var skillsController = $scope.$new();
-	$controller('skillsController', { $scope: skillsController });
-	$scope.mana = manaFactory.mana;
-	$scope.skills = skillsFactory.skills;
-	var conj = $scope.skills.conjuring;
-	
-	$scope.conjure = function() {
-		$scope.mana.run('add', getAmount());
-		skillsController.update('conjuring', .35 + (conj.level - 1) / 20);
-	};
-	
-	$scope.getConjureAmt = function() {
-		var amount = getAmount();
-		return amount === Math.floor(amount) ? amount : amount.toFixed(1);
-	};
-	
-	var getAmount = function() {
-		return (conj.level + conj.level * (conj.level / 8)) * conj.prodMultiplier + conj.prodAddition - .125;
-	};
-}]);
