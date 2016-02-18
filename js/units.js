@@ -142,4 +142,7 @@ window.app.game.controller('unitsController',
 		return +conjurings[unitsFactory.map[group]].print() >= cost * num;
 	};
 	
+	$scope.getConjuring = function(group) {
+		return unitsFactory.map[group];
+	};
 }]);

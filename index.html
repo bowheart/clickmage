@@ -95,7 +95,7 @@
 											<span class="text-primary">{{ props.owned }}</span> <span class="small">summoned</span><span class="pull-right small">Cost: {{ props.cost }}</span>
 										</p>
 										<div class="btn-group btn-group-justified">
-											<a class="btn btn-default disabled" ng-if="!canAfford(props.cost, group, 1)">Insufficient mana</a>
+											<a class="btn btn-default disabled" ng-if="!canAfford(props.cost, group, 1)">Insufficient {{ getConjuring(group) }}</a>
 											<a class="btn btn-default hotkey-{{ getHotkey(3, 0) }}" ng-if="canAfford(props.cost, group, 1)" ng-click="summon(props, group, 1)">summon 1</a>
 											<a class="btn btn-default hotkey-{{ getHotkey(3, 1) }}" ng-if="canAfford(props.cost, group, 8)" ng-click="summon(props, group, calcFourth(props.cost, group))">summon {{ calcFourth(props.cost, group) }}</a>
 											<a class="btn btn-default hotkey-{{ getHotkey(3, 2) }}" ng-if="canAfford(props.cost, group, 2)" ng-click="summon(props, group, calcMax(props.cost, group))">summon {{ calcMax(props.cost, group) }}</a>

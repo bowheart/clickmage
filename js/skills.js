@@ -49,7 +49,7 @@ window.app.game.controller('skillsController',
 			oldLevel = skill.level;
 		
 		while (skill.xp >= skill.nextLevel) {
-			skill.nextLevel += Math.floor(7 + (skill.level * skill.level++ * .9)); // yes, ++ after
+			skill.nextLevel += Math.floor(9 + Math.pow(1.3, skill.level++)); // yes, ++ after
 		}
 		if (skill.level > oldLevel) {
 			var levelsGained = skill.level - oldLevel;
