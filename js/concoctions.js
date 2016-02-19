@@ -37,6 +37,7 @@ window.app.game.factory('concoctionsFactory', ['skillsFactory', function(skillsF
 			var con = concoctions[concoction];
 			con.active = false;
 			con.endTime = 0;
+			con.timeout = null;
 		});
 	};
 	reset();
