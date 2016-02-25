@@ -53,13 +53,13 @@ cast gold -- every action produces gold as well
 
 
 
-	ENHANCEMENTS
+	ENHANCEMENTS #TODO:10 enhancements.js
 
 
 
 
 
-	SPELLS
+	SPELLS #TODO:0 spells.js
 mana to gold
 gold to energy
 energy to darkness
@@ -76,7 +76,7 @@ invoke something...
 
 
 
-	LEARNING
+	LEARNING #TODO:40 learning.js
 conjure leech
 conjure bat
 conjure newt
@@ -87,8 +87,8 @@ cast fireball
 
 	SKILLS
 conjuring    (clickage)
-divination
-enchanting
+divination #TODO:20 divination skill
+enchanting #TODO:30 enchanting skill
 alchemy
 summoning
 stealth
@@ -107,4 +107,3 @@ reputation  (banish units)
 the lower units will give better summoning xp overall.
 summoning costs mana.
 alchemy costs creatures.
-

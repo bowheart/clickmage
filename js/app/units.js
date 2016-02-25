@@ -2,9 +2,9 @@ window.app.game.factory('unitsFactory', ['conjuringsFactory', function(conjuring
 	var conjurings = conjuringsFactory.conjurings;
 	var units = {
 		creatures: {
-			snail: { cost: 20, production: 0.002, xp: 0.3, levelNeeded: 1 },
-			leech: { cost: 300, production: 0.008, xp: 2, levelNeeded: 3 },
-			toad: { cost: 1150, production: 0.02, xp: 5, levelNeeded: 6 },
+			snail: { cost: 20, production: 0.004, xp: 0.3, levelNeeded: 1 },
+			leech: { cost: 300, production: 0.02, xp: 2, levelNeeded: 3 },
+			toad: { cost: 1150, production: 0.09, xp: 5, levelNeeded: 6 },
 			bat: { cost: 2900, production: 0.16, xp: 10, levelNeeded: 9 },
 			newt: { cost: 9000, production: 0.5, xp: 24, levelNeeded: 15 },
 			crow: { cost: 24000, production: 1.4, xp: 36, levelNeeded: 18 },

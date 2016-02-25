@@ -5,8 +5,8 @@ window.app.game.factory('conjuringsFactory', function() {
 		energy: { _num: new Big(localStorage.energy || 0), production: 1, xp: 14, levelNeeded: 48, ownedPhrase: 'energy generated' },
 		darkness: { _num: new Big(localStorage.darkness || 0), production: 1, xp: 112, levelNeeded: 78, ownedPhrase: 'darkness unleashed' }
 	};
-	
-	
+
+
 	var reset = function() {
 		for (var conjuring in conjurings) {
 			conjurings[conjuring]._num = new Big(0);
@@ -19,8 +19,8 @@ window.app.game.factory('conjuringsFactory', function() {
 		}
 	};
 	reset();
-	
-	
+
+
 	return {
 		save: function() {
 			localStorage.mana = conjurings.mana.print();
@@ -42,35 +42,35 @@ window.app.game.factory('conjuringsFactory', function() {
 window.app.game.controller('conjuringsController',
 			['conjuringsFactory', 'skillsFactory', '$scope', '$controller',
 			function(conjuringsFactory, skillsFactory, $scope, $controller) {
-	
+
 	var skillsController = $scope.$new();
 	$controller('skillsController', { $scope: skillsController });
 	var skills = skillsFactory.skills,
 		conj = skills.conjuring;
-	
-	
+
+
 	$scope.conjurings = conjuringsFactory.conjurings;
-	
+
 	$scope.canConjure = function(conjuring) {
 		return conj.level >= conjuring.levelNeeded;
 	};
-	
+
 	$scope.conjure = function(conjuring) {
 		conjuring.run('add', getProduction(conjuring));
 		skillsController.update('conjuring', conjuring.xp + (conj.level - 1) / 20);
 	};
-	
+
 	$scope.getConjureAmt = function(conjuring) {
 		var production = getProduction(conjuring);
 		return production === Math.floor(production) || production >= 1000 ? Math.floor(production) : production.toFixed(1);
 	};
-	
+
 	$scope.displayConjuring = function(conjuring) {
 		var withCommas = conjuring.print().split('').reverse().join('').replace(/(\d{3})/g, '$1,').split('').reverse();
 		if (withCommas[0] === ',') withCommas.shift();
 		return withCommas.join('');
 	};
-	
+
 	var getProduction = function(conjuring) {
 		if (conj.level < conjuring.levelNeeded) return 0;
 		var base = conj.level - conjuring.levelNeeded + 1;
