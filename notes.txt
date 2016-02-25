@@ -10,17 +10,18 @@ bat
 	groveler
 newt
 crow
-lizard
 	crony
+lizard
 raven
 	henchman
-vulture
 	grunt
+vulture
 	brute
 	mongrel
-	savage
+	cannibal
 		apprentice
 creature
+	savage
 		witch
 		conjurer
 	ogre
@@ -86,11 +87,13 @@ cast fireball
 
 
 	SKILLS
-conjuring    (clickage)
-divination #TODO:20 divination skill
-enchanting #TODO:30 enchanting skill
-alchemy
-summoning
+-conjuring  (clickage)
+-alchemy
+-summoning
+wizardry  (spell casting)
+divination  (learning)  #TODO:20 divination skill
+enchanting  (enhancements)  #TODO:30 enchanting skill
+sorcery
 stealth
 reputation  (banish units)
 

@@ -1,36 +1,56 @@
 window.app.game.factory('unitsFactory', ['conjuringsFactory', function(conjuringsFactory) {
 	var conjurings = conjuringsFactory.conjurings;
+	
+	// the math for this:  (cost: i * 5)  (production: i * 6)  (xp: i * 5.5)
 	var units = {
 		creatures: {
-			snail: { cost: 20, production: 0.004, xp: 0.3, levelNeeded: 1 },
-			leech: { cost: 300, production: 0.02, xp: 2, levelNeeded: 3 },
-			toad: { cost: 1150, production: 0.09, xp: 5, levelNeeded: 6 },
-			bat: { cost: 2900, production: 0.16, xp: 10, levelNeeded: 9 },
-			newt: { cost: 9000, production: 0.5, xp: 24, levelNeeded: 15 },
-			crow: { cost: 24000, production: 1.4, xp: 36, levelNeeded: 18 },
-			lizard: { cost: 43000, production: 3.2, xp: 58, levelNeeded: 21 },
-			raven: { cost: 160000, production: 8.4, xp: 212, levelNeeded: 27 },
-			vulture: { cost: 410000, production: 30, xp: 417, levelNeeded: 33 },
-			creature: { cost: 2600000, production: 400, xp: 2500, levelNeeded: 51 }
+			snail: { cost: 20, production: 0.004, xp: 0.1, levelNeeded: 1 },
+			leech: { cost: 100, production: 0.024, xp: 0.55, levelNeeded: 3 },
+			toad: { cost: 500, production: 0.144, xp: 3.03, levelNeeded: 6 },
+			bat: { cost: 2500, production: 0.864, xp: 17, levelNeeded: 9 },
+			newt: { cost: 12500, production: 5.2, xp: 92, levelNeeded: 15 },
+			crow: { cost: 62500, production: 31, xp: 503, levelNeeded: 18 },
+			lizard: { cost: 312500, production: 186, xp: 2768, levelNeeded: 24 },
+			raven: { cost: 1562500, production: 1119, xp: 15224, levelNeeded: 27 },
+			vulture: { cost: 7812500, production: 6718, xp: 83732, levelNeeded: 36 },
+			creature: { cost: 39062500, production: 40310, xp: 460525, levelNeeded: 51 },
+			unicorn: { cost: 195312500, production: 241864, xp: 2532889, levelNeeded: 78 },
+			gryphon: { cost: 976562500, production: 1451188, xp: 13930891, levelNeeded: 93 }
 		},
 		cronies: {
-			groveler: { cost: 40, production: 0.004, xp: 17, levelNeeded: 12 },
-			crony: { cost: 600, production: 0.016, xp: 90, levelNeeded: 24 },
-			henchman: { cost: 2300, production: 0.04, xp: 250, levelNeeded: 30 },
-			grunt: { cost: 5800, production: 0.32, xp: 500, levelNeeded: 36 },
-			brute: { cost: 18000, production: 1, xp: 640, levelNeeded: 39 },
-			mongrel: { cost: 48000, production: 2.8, xp: 750, levelNeeded: 42 },
-			savage: { cost: 86000, production: 6.4, xp: 910, levelNeeded: 45 },
-			ogre: { cost: 320000, production: 16.8, xp: 4300, levelNeeded: 60 }
+			groveler: { cost: 40, production: 0.004, xp: 3.03, levelNeeded: 12 },
+			crony: { cost: 200, production: 0.024, xp: 17, levelNeeded: 21 },
+			henchman: { cost: 1000, production: 0.144, xp: 92, levelNeeded: 30 },
+			grunt: { cost: 5000, production: 0.864, xp: 503, levelNeeded: 33 },
+			brute: { cost: 25000, production: 5.2, xp: 2768, levelNeeded: 39 },
+			mongrel: { cost: 125000, production: 31, xp: 15224, levelNeeded: 42 },
+			cannibal: { cost: 625000, production: 186, xp: 83732, levelNeeded: 45 },
+			savage: { cost: 3125000, production: 1119, xp: 460525, levelNeeded: 54 },
+			ogre: { cost: 15625000, production: 6718, xp: 2532889, levelNeeded: 63 },
+			troll: { cost: 78125000, production: 40310, xp: 13930891, levelNeeded: 69 },
+			giant: { cost: 390625000, production: 241864, xp: 76619901, levelNeeded: 84 }
 		},
 		magicians: {
-			apprentice: { cost: 80, production: 0.008, xp: 2000, levelNeeded: 48 },
-			witch: { cost: 1200, production: 0.032, xp: 3700, levelNeeded: 54 },
-			conjurer: { cost: 4600, production: 0.08, xp: 5200, levelNeeded: 57 },
-			enchantress: { cost: 11600, production: 0.64, xp: 7800, levelNeeded: 63 }
+			apprentice: { cost: 80, production: 0.004, xp: 460525, levelNeeded: 48 },
+			witch: { cost: 400, production: 0.024, xp: 2532889, levelNeeded: 57 },
+			conjurer: { cost: 2000, production: 0.144, xp: 13930891, levelNeeded: 60 },
+			enchantress: { cost: 10000, production: 0.864, xp: 76619901, levelNeeded: 66 },
+			wizard: { cost: 50000, production: 5.2, xp: 9000, levelNeeded: 72 },
+			sorceress: { cost: 250000, production: 31, xp: 20000, levelNeeded: 75 },
+			'brown dragon': { cost: 1250000, production: 186, xp: 2, levelNeeded: 87 },
+			'gold dragon': { cost: 6250000, production: 1119, xp: 2, levelNeeded: 96 },
+			'sapphire dragon': { cost: 2, production: 6718, xp: 2, levelNeeded: 99 },
+			'dragon queen': { cost: 2, production: 40310, xp: 2, levelNeeded: 108 },
+			'fury dragon': { cost: 2, production: 241864, xp: 2, levelNeeded: 117 }
 		},
 		beings: {
-			
+			genii: { cost: 160, production: 19, xp: 20, levelNeeded: 81 },
+			soul: { cost: 2, production: 2, xp: 2, levelNeeded: 90 },
+			'restless spirit': { cost: 2, production: 2, xp: 2, levelNeeded: 102 },
+			fiend: { cost: 2, production: 2, xp: 2, levelNeeded: 105 },
+			demon: { cost: 2, production: 2, xp: 2, levelNeeded: 111 },
+			'dark warrior': { cost: 2, production: 2, xp: 2, levelNeeded: 114 },
+			'black demon': { cost: 2, production: 2, xp: 2, levelNeeded: 120 }
 		}
 	};
 	
