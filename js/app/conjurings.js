@@ -1,9 +1,11 @@
 window.app.game.factory('conjuringsFactory', function() {
+	
+	// the math for this:  (xp: i * 7.4)
 	var conjurings = {
-		mana: { _num: new Big(localStorage.mana || 0), production: 1, xp: .3, levelNeeded: 1, ownedPhrase: 'mana pooled' },
-		gold: { _num: new Big(localStorage.gold || 0), production: 1, xp: 2, levelNeeded: 12, ownedPhrase: 'gold hoarded' },
-		energy: { _num: new Big(localStorage.energy || 0), production: 1, xp: 14, levelNeeded: 48, ownedPhrase: 'energy generated' },
-		darkness: { _num: new Big(localStorage.darkness || 0), production: 1, xp: 112, levelNeeded: 78, ownedPhrase: 'darkness unleashed' }
+		mana: { _num: new Big(localStorage.mana || 0), production: 1, xp: 0.35, levelNeeded: 1, ownedPhrase: 'mana pooled' },
+		gold: { _num: new Big(localStorage.gold || 0), production: 1, xp: 3, levelNeeded: 12, ownedPhrase: 'gold hoarded' },
+		energy: { _num: new Big(localStorage.energy || 0), production: 1, xp: 28, levelNeeded: 48, ownedPhrase: 'energy generated' },
+		darkness: { _num: new Big(localStorage.darkness || 0), production: 1, xp: 255, levelNeeded: 81, ownedPhrase: 'darkness unleashed' }
 	};
 
 
@@ -11,7 +13,7 @@ window.app.game.factory('conjuringsFactory', function() {
 		for (var conjuring in conjurings) {
 			conjurings[conjuring]._num = new Big(0);
 			conjurings[conjuring].print = function() {
-				return this._num.toFixed(0) === '0' ? '0' : this._num.sub(.5).toFixed(0);
+				return this._num.toFixed(0) === '0' ? '0' : this._num.sub(0.5).toFixed(0);
 			};
 			conjurings[conjuring].run = function(func, params) {
 				return this._num = this._num[func].apply(this._num, Array.isArray(params) ? params : [params]);
@@ -57,7 +59,7 @@ window.app.game.controller('conjuringsController',
 
 	$scope.conjure = function(conjuring) {
 		conjuring.run('add', getProduction(conjuring));
-		skillsController.update('conjuring', conjuring.xp + (conj.level - 1) / 20);
+		skillsController.update('conjuring', conjuring.xp + (conj.level - 1) / 10);
 	};
 
 	$scope.getConjureAmt = function(conjuring) {

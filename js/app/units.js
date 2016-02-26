@@ -1,34 +1,34 @@
 window.app.game.factory('unitsFactory', ['conjuringsFactory', function(conjuringsFactory) {
 	var conjurings = conjuringsFactory.conjurings;
 	
-	// the math for this:  (cost: i * 5)  (production: i * 6)  (xp: i * 5.5)
+	// the math for this:  (cost: i * 7)  (production: i * 7.4)  (xp: i * 7.2)
 	var units = {
 		creatures: {
 			snail: { cost: 20, production: 0.004, xp: 0.1, levelNeeded: 1 },
-			leech: { cost: 100, production: 0.024, xp: 0.55, levelNeeded: 3 },
-			toad: { cost: 500, production: 0.144, xp: 3.03, levelNeeded: 6 },
-			bat: { cost: 2500, production: 0.864, xp: 17, levelNeeded: 9 },
-			newt: { cost: 12500, production: 5.2, xp: 92, levelNeeded: 15 },
-			crow: { cost: 62500, production: 31, xp: 503, levelNeeded: 18 },
-			lizard: { cost: 312500, production: 186, xp: 2768, levelNeeded: 24 },
-			raven: { cost: 1562500, production: 1119, xp: 15224, levelNeeded: 27 },
-			vulture: { cost: 7812500, production: 6718, xp: 83732, levelNeeded: 36 },
-			creature: { cost: 39062500, production: 40310, xp: 460525, levelNeeded: 51 },
-			unicorn: { cost: 195312500, production: 241864, xp: 2532889, levelNeeded: 78 },
-			gryphon: { cost: 976562500, production: 1451188, xp: 13930891, levelNeeded: 93 }
+			leech: { cost: 140, production: 0.03, xp: 0.72, levelNeeded: 3 },
+			toad: { cost: 980, production: 0.22, xp: 5.2, levelNeeded: 6 },
+			bat: { cost: 6860, production: 1.62, xp: 37, levelNeeded: 9 },
+			newt: { cost: 48020, production: 12, xp: 269, levelNeeded: 15 },
+			crow: { cost: 336140, production: 89, xp: 1935, levelNeeded: 18 },
+			lizard: { cost: 2352980, production: 657, xp: 13931, levelNeeded: 24 },
+			raven: { cost: 16470860, production: 4861, xp: 100306, levelNeeded: 27 },
+			vulture: { cost: 115296020, production: 35968, xp: 722204, levelNeeded: 36 },
+			creature: { cost: 807072140, production: 266162, xp: 5199870, levelNeeded: 51 },
+			unicorn: { cost: 5649504980, production: 1969596, xp: 37439062, levelNeeded: 78 },
+			gryphon: { cost: 39546534860, production: 14575012, xp: 269561249, levelNeeded: 93 }
 		},
 		cronies: {
-			groveler: { cost: 40, production: 0.004, xp: 3.03, levelNeeded: 12 },
-			crony: { cost: 200, production: 0.024, xp: 17, levelNeeded: 21 },
-			henchman: { cost: 1000, production: 0.144, xp: 92, levelNeeded: 30 },
-			grunt: { cost: 5000, production: 0.864, xp: 503, levelNeeded: 33 },
-			brute: { cost: 25000, production: 5.2, xp: 2768, levelNeeded: 39 },
-			mongrel: { cost: 125000, production: 31, xp: 15224, levelNeeded: 42 },
-			cannibal: { cost: 625000, production: 186, xp: 83732, levelNeeded: 45 },
-			savage: { cost: 3125000, production: 1119, xp: 460525, levelNeeded: 54 },
-			ogre: { cost: 15625000, production: 6718, xp: 2532889, levelNeeded: 63 },
-			troll: { cost: 78125000, production: 40310, xp: 13930891, levelNeeded: 69 },
-			giant: { cost: 390625000, production: 241864, xp: 76619901, levelNeeded: 84 }
+			groveler: { cost: 40, production: 0.004, xp: 5.2, levelNeeded: 12 },
+			crony: { cost: 280, production: 0.03, xp: 37, levelNeeded: 21 },
+			henchman: { cost: 1960, production: 0.22, xp: 269, levelNeeded: 30 },
+			grunt: { cost: 13720, production: 1.62, xp: 1935, levelNeeded: 33 },
+			brute: { cost: 96040, production: 12, xp: 13931, levelNeeded: 39 },
+			mongrel: { cost: 672280, production: 89, xp: 100306, levelNeeded: 42 },
+			cannibal: { cost: 4705960, production: 657, xp: 722204, levelNeeded: 45 },
+			savage: { cost: 32941720, production: 4861, xp: 5199870, levelNeeded: 54 },
+			ogre: { cost: 230592040, production: 35968, xp: 37439062, levelNeeded: 63 },
+			troll: { cost: 1614144280, production: 266162, xp: 269561249, levelNeeded: 69 },
+			giant: { cost: 11299009960, production: 1969596, xp: 76619901, levelNeeded: 84 }
 		},
 		magicians: {
 			apprentice: { cost: 80, production: 0.004, xp: 460525, levelNeeded: 48 },
