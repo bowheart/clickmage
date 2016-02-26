@@ -92,15 +92,27 @@ window.app.game.factory('unitsFactory', ['conjuringsFactory', function(conjuring
 			
 			// now that the productions are saved, actually produce:
 			Object.keys(self._production).forEach(function(group) {
-				conjurings[self.map[group]].run('add', self._production[group]);
+				self.map[group].conjuring.run('add', self._production[group]);
 			});
 		},
 		units: localStorage.units ? JSON.parse(localStorage.units) : units,
 		map: {
-			creatures: 'mana',
-			cronies: 'gold',
-			magicians: 'energy',
-			beings: 'darkness'
+			creatures: {
+				conjuringName: 'mana',
+				conjuring: conjurings.mana
+			},
+			cronies: {
+				conjuringName: 'gold',
+				conjuring: conjurings.gold
+			},
+			magicians: {
+				conjuringName: 'energy',
+				conjuring: conjurings.energy
+			},
+			beings: {
+				conjuringName: 'darkness',
+				conjuring: conjurings.darkness
+			}
 		},
 		_production: { creatures: 0, cronies: 0, magicians: 0, beings: 0 }
 	};
@@ -108,13 +120,12 @@ window.app.game.factory('unitsFactory', ['conjuringsFactory', function(conjuring
 
 
 window.app.game.controller('unitsController',
-			['conjuringsFactory', 'unitsFactory', 'skillsFactory', '$scope', '$controller',
-			function(conjuringsFactory, unitsFactory, skillsFactory, $scope, $controller) {
+			['unitsFactory', 'skillsFactory', '$scope', '$controller',
+			function(unitsFactory, skillsFactory, $scope, $controller) {
 	
 	var skillsController = $scope.$new();
 	$controller('skillsController', { $scope: skillsController });
-	var conjurings = conjuringsFactory.conjurings,
-		units = unitsFactory.units,
+	var units = unitsFactory.units,
 		skills = skillsFactory.skills;
 	
 	
@@ -135,7 +146,7 @@ window.app.game.controller('unitsController',
 	};
 	
 	$scope.summon = function(unit, group, num) {
-		var conjuring = conjurings[unitsFactory.map[group]],
+		var conjuring = unitsFactory.map[group].conjuring,
 			totalCost = Math.min(+conjuring.print(), unit.cost * num),
 			numBought = Math.floor(totalCost / unit.cost),
 			conjuringSpent = numBought * unit.cost;
@@ -152,17 +163,17 @@ window.app.game.controller('unitsController',
 	
 	// = = = = = = = =   Helper Functions   = = = = = = = = //
 	$scope.calcFourth = function(cost, group) {
-		return parseInt(+conjurings[unitsFactory.map[group]].print() / cost / 4);
+		return parseInt(+unitsFactory.map[group].conjuring.print() / cost / 4);
 	};
 	$scope.calcMax = function(cost, group) {
-		return parseInt(+conjurings[unitsFactory.map[group]].print() / cost);
+		return parseInt(+unitsFactory.map[group].conjuring.print() / cost);
 	};
 	
 	$scope.canAfford = function(cost, group, num) {
-		return +conjurings[unitsFactory.map[group]].print() >= cost * num;
+		return +unitsFactory.map[group].conjuring.print() >= cost * num;
 	};
 	
-	$scope.getConjuring = function(group) {
-		return unitsFactory.map[group];
+	var getConjuring = $scope.getConjuring = function(group) {
+		return unitsFactory.map[group].conjuringName;
 	};
 }]);

@@ -49,7 +49,12 @@ gryphon
 
 
 	CONCOCTIONS
+potion of conjuring (II, III, IV, V, VI)
+potion of summoning (II, III, IV, V, VI)
+
 cast gold -- every action produces gold as well
+emanate -- every action produces energy as well
+enshroud -- every action produces darkness as well
 
 
 
@@ -90,6 +95,7 @@ cast fireball
 -conjuring  (clickage)
 -alchemy
 -summoning
+witchcraft
 wizardry  (spell casting)
 divination  (learning)  #TODO:20 divination skill
 enchanting  (enhancements)  #TODO:30 enchanting skill
@@ -110,3 +116,20 @@ reputation  (banish units)
 the lower units will give better summoning xp overall.
 summoning costs mana.
 alchemy costs creatures.
+
+
+
+
+
+
+TODOS:
+--Wizardry Skill (spells.js)
+--Helpful info in units tab
+	Individual production
+	Total production
+	
+--More concoctions
+--Achievements (achievements.js)
+--Learning Skill (learning.js)
+--Increase conjuring graph curve
+--Add summoning multiplier
